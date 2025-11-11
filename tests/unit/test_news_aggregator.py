@@ -187,8 +187,13 @@ class TestNewsCoverageFiller:
         merged = filler.transform(sample_market_data, sample_news_data)
         
         assert 'has_news' in merged.columns
-        assert merged[merged['assetName'] == 'AAPL']['has_news'].iloc[0] == True
-        assert merged[merged['assetName'] == 'MSFT']['has_news'].iloc[0] == False
+        
+        # Convert numpy bool to Python bool for comparison
+        aapl_has_news = bool(merged[merged['assetName'] == 'AAPL']['has_news'].iloc[0])
+        msft_has_news = bool(merged[merged['assetName'] == 'MSFT']['has_news'].iloc[0])
+        
+        assert aapl_has_news == True
+        assert msft_has_news == False
 
 
 class TestNewsQualityValidator:
